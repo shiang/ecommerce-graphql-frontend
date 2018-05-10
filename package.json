@@ -9,6 +9,8 @@
     "apollo-link": "^1.2.2",
     "apollo-link-error": "^1.0.9",
     "apollo-link-http": "^1.5.4",
+    "apollo-link-ws": "^1.0.8",
+    "apollo-utilities": "^1.0.12",
     "axios": "^0.18.0",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
@@ -18,7 +20,7 @@
     "react-dom": "^16.3.2",
     "react-dropzone": "^4.2.9",
     "react-scripts": "1.1.4",
-    "urql": "^0.2.1"
+    "subscriptions-transport-ws": "^0.9.9"
   },
   "scripts": {
     "start": "react-scripts start",
