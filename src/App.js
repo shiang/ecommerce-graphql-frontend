@@ -14,6 +14,10 @@ import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 import Post from './Post';
 import PostForm from './PostForm';
+import CreateProduct from './CreateProduct';
+import UpdateProduct from "./UpdateProduct";
+import Product from "./Product";
+
 
 const httpLink = new HttpLink({
   uri: "http://localhost:4000/graphql",
@@ -38,50 +42,12 @@ const link = split(
   httpLink
 );
 
-// const request = async operation => {
-//   //const token = await AsyncStorage.getItem("token");
-//   operation.setContext({
-//     headers: {
-//       authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVhZWZmNGFmZDFhYWIxNjMzMWRjZjU4OSIsImVtYWlsIjoicnlhbkB1c2VyLmNvbSIsIm5hbWUiOiJSeWFuIn0sImlhdCI6MTUyNTgyMjQ4MCwiZXhwIjoxNTU3MzgwMDgwfQ.WwxT_BJMqG0UH8nzosoabD1dqstTVGkHTawvZDQ979Q`
-//     }
-//   });
-// };
-
-// const requestLink = new ApolloLink(
-//   (operation, forward) =>
-//     new Observable(observer => {
-//       let handle;
-//       Promise.resolve(operation)
-//         .then(oper => request(oper))
-//         .then(() => {
-//           handle = forward(operation).subscribe({
-//             next: observer.next.bind(observer),
-//             error: observer.error.bind(observer),
-//             complete: observer.complete.bind(observer)
-//           });
-//         })
-//         .catch(observer.error.bind(observer));
-
-//       return () => {
-//         if (handle) handle.unsubscribe();
-//       };
-//     })
-// );
 
 const client = new ApolloClient({
-  // link: ApolloLink.from([
-  //   onError(({ graphQLErrors, networkError }) => {
-  //     if (graphQLErrors)
-  //       graphQLErrors.map(({ message, locations, path }) =>
-  //         console.log(
-  //           `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-  //         )
-  //       );
-  //     if (networkError) console.log(`[Network error]: ${networkError}`);
-  //   }),
-  // ]),
   link,
-  cache: new InMemoryCache()
+  cache: new InMemoryCache({
+    dataIdFromObject: object => object._id
+  })
 });
 
 // const client = new ApolloClient({
@@ -104,6 +70,9 @@ class App extends Component {
         <ImageUpload />
         <PostForm />
         <Post />
+        
+        <UpdateProduct />
+        <Product />
       </div>
       </ApolloProvider>
     );
