@@ -17,6 +17,8 @@ import PostForm from './PostForm';
 import CreateProduct from './CreateProduct';
 import UpdateProduct from "./UpdateProduct";
 import Product from "./Product";
+import { InstantSearch, Hits, SearchBox } from "react-instantsearch/dom";
+
 
 
 const httpLink = new HttpLink({
@@ -64,19 +66,27 @@ const client = new ApolloClient({
 
 class App extends Component {
   render() {
-    return (
-      <ApolloProvider client={client}>
-      <div>
-        <ImageUpload />
-        <PostForm />
-        <Post />
-        
-        <UpdateProduct />
-        <Product />
-      </div>
-      </ApolloProvider>
-    );
+    return <ApolloProvider client={client}>
+        <div>
+          <ImageUpload />
+          <PostForm />
+          <Post />
+
+          <UpdateProduct />
+          <InstantSearch appId="NZKNWWX3BA" apiKey="9d5779a0fff8176f0b605d67dc563044" indexName="products">
+            <Search />
+          </InstantSearch>
+          <Product />
+        </div>
+      </ApolloProvider>;
   }
 }
 
 export default App;
+
+const Search = () => (
+  <div className="container">
+    <SearchBox />
+    <Hits hitComponent={Product} />
+  </div>
+);

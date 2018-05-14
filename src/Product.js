@@ -32,7 +32,8 @@ class Product extends Component {
         return <Query query={ALL_PRODUCTS}>
             {({ loading, error, data }) => {
               if (!loading) {
-                console.log("Product Data: ", data);
+                //console.log("Product Data: ", data);
+                console.log("Hits props: ", this.props.hit);
                 
                 return (
                     <div>
