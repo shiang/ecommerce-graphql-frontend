@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
+import { Button } from "semantic-ui-react";
 
 
 const GET_PRODUCT = gql`
@@ -45,7 +46,9 @@ class Product extends Component {
                                     <h2>{description}</h2>
                                     <h2>{price}</h2>
                                     <h2>{category}</h2>
+                                <Button primary>Primary</Button>
                                 </div>
+                                
                             )
                         })}
                     </div>

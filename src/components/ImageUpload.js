@@ -4,34 +4,39 @@ import Dropzone from "react-dropzone";
 import axios from "axios";
 import moment from "moment";
 import gql from "graphql-tag";
+import { Button, Form, Input } from "antd";
 
 const S3_SIGN_REQUEST = gql`
   mutation SignS3($filename: String!, $filetype: String!) {
-  signS3 (filename: $filename, filetype: $filetype) {
-    signedRequest
-    url
+    signS3(filename: $filename, filetype: $filetype) {
+      signedRequest
+      url
+    }
   }
-}
 `;
 
 const CREATE_PICTURE = gql`
-  mutation ($name: String!, $pictureUrl: String!) {
-  createPicture(name: $name, pictureUrl: $pictureUrl) {
-    _id
-    name
-    pictureUrl
+  mutation($name: String!, $pictureUrl: String!) {
+    createPicture(name: $name, pictureUrl: $pictureUrl) {
+      _id
+      name
+      pictureUrl
+    }
   }
-}
 `;
 
 class ImageUpload extends Component {
   state = {
     name: "",
-    file: null
+    file: null,
+    loading: false
   };
 
   onDrop = async files => {
-    this.setState({ file: files[0] });
+    this.setState({
+      file: files[0],
+      name: files[0].name
+    });
   };
 
   onChange = e => {
@@ -41,6 +46,8 @@ class ImageUpload extends Component {
   };
 
   uploadToS3 = async (file, signedRequest) => {
+    this.setState({ loading: true });
+
     const options = {
       headers: {
         "Content-Type": file.type
@@ -79,6 +86,12 @@ class ImageUpload extends Component {
       }
     });
 
+    const { _id } = graphqlResponse.data.createPicture;
+
+    await this.props.setImageId(_id);
+
+    this.setState({ loading: false });
+
     console.log(graphqlResponse);
     // this.props.history.push(
     //     `/champion/${graphqlResponse.data.createChampion.id}`
@@ -92,20 +105,37 @@ class ImageUpload extends Component {
           <Mutation mutation={CREATE_PICTURE}>
             {(createPicture, { data }) => (
               <div>
-                <input
-                  name="name"
-                  onChange={this.onChange}
-                  value={this.state.name}
-                />
-                <Dropzone onDrop={this.onDrop}>
-                  <p>
-                    Try dropping some files here, or click to select files to
-                    upload.
-                  </p>
+                {this.state.file && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between"
+                    }}
+                  >
+                    <Input
+                      name="name"
+                      onChange={this.onChange}
+                      value={this.state.name}
+                      placeholder="File name"
+                    />
+
+                    <Button
+                      onClick={() => this.submit(s3SignRequest, createPicture)}
+                      type="primary"
+                      loading={this.state.loading}
+                    >
+                      Upload
+                    </Button>
+                  </div>
+                )}
+                <Dropzone
+                  onDrop={this.onDrop}
+                  style={{ width: "80px", height: "50px", marginTop: "10px" }}
+                >
+                  <Button>browse...</Button>
                 </Dropzone>
-                <button onClick={() => this.submit(s3SignRequest, createPicture)}>
-                  Submit
-                </button>
               </div>
             )}
           </Mutation>
@@ -115,4 +145,4 @@ class ImageUpload extends Component {
   }
 }
 
-export default ImageUpload
+export default ImageUpload;

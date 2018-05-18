@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 //import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import ImageUpload from './ImageUpload';
-
-
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
@@ -14,10 +11,14 @@ import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 import Post from './Post';
 import PostForm from './PostForm';
-import CreateProduct from './CreateProduct';
 import UpdateProduct from "./UpdateProduct";
 import Product from "./Product";
 import { InstantSearch, Hits, SearchBox } from "react-instantsearch/dom";
+import "semantic-ui-css/semantic.min.css";
+import Login from "./Login";
+import Header from "./Header";
+import { Button } from "antd";
+import Dashboard from './Dashboard';
 
 
 
@@ -30,7 +31,7 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     connectionParams: {
-      authToken: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVhZWZmNGFmZDFhYWIxNjMzMWRjZjU4OSIsImVtYWlsIjoicnlhbkB1c2VyLmNvbSIsIm5hbWUiOiJSeWFuIn0sImlhdCI6MTUyNTk0ODk4NiwiZXhwIjoxNTU3NTA2NTg2fQ.CVaC6B-7b6vvggsiU1T8yF0bqEws3otZaGn70Wktu1g`
+      authToken: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVhZmJjODZjZjY2MmNkNGFlNjM3NTZiNCIsImVtYWlsIjoidXNlcjc3N0B1c2VyLmNvbSIsIm5hbWUiOiJ1c2VyNzc3In0sImlhdCI6MTUyNjYxMTkxNCwiZXhwIjoxNTU4MTY5NTE0fQ.1TM81XVJ_xo17BVdtMk6vBUUvDem9ujkWdB1wRTbSlE`
     }
   }
 });
@@ -68,15 +69,7 @@ class App extends Component {
   render() {
     return <ApolloProvider client={client}>
         <div>
-          <ImageUpload />
-          <PostForm />
-          <Post />
-
-          <UpdateProduct />
-          <InstantSearch appId="NZKNWWX3BA" apiKey="9d5779a0fff8176f0b605d67dc563044" indexName="products">
-            <Search />
-          </InstantSearch>
-          <Product />
+          <Dashboard />
         </div>
       </ApolloProvider>;
   }

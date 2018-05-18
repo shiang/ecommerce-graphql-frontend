@@ -33,6 +33,7 @@ class UpdateProduct extends Component {
       return <h1>Loading...</h1>;
     }
 
+    console.log(this.props.data);
     const { product } = this.props.data;
 
     return (
@@ -94,7 +95,7 @@ class UpdateProduct extends Component {
 export default compose(
   graphql(FETCH_PRODUCT, {
     options: props => ({
-        variables: { id: "5af62f1318784320764bf6b9" }
+      variables: { id: "5af9729e39946cdbb87dde3b" }
     })
   }),
   graphql(UPDATE_PRODUCT, { name: "updateProduct" })
