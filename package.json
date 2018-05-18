@@ -24,10 +24,12 @@
     "react-scripts": "1.1.4",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.80.0",
+    "serve": "^6.5.7",
     "subscriptions-transport-ws": "^0.9.9"
   },
   "scripts": {
     "start": "react-app-rewired start",
+    "now-start": "serve --single ./build",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
