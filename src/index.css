@@ -3,3 +3,9 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.ant-carousel .slick-slide {
+  height: 160px;
+  background: #364d79;
+  overflow: hidden;
+}

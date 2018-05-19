@@ -1,19 +1,9 @@
 import React from "react";
-import { Button, Checkbox, Form, Card, Message } from "semantic-ui-react";
-//import { Form as AntForm, Icon, Input, Button as AntButton } from "antd";
-import Dropzone from 'react-dropzone'
-import ImageUpload from './ImageUpload'
+import { Button, Form, Card, Message, Image } from "semantic-ui-react";
+import ImageUpload from "./ImageUpload";
 import gql from "graphql-tag";
 import { graphql, compose } from "react-apollo";
-
-const S3_UPLOAD = gql`
-  mutation UploadToS3($filename: String!, $filetype: String!) {
-    signS3(filename: $filename, filetype: $filetype) {
-      url
-      signedRequest
-    }
-  }
-`;
+import { Carousel } from 'antd';
 
 class ProductForm extends React.Component {
   state = {
@@ -29,8 +19,16 @@ class ProductForm extends React.Component {
   };
 
   componentDidMount = () => {
-    if(this.props.product) {
-      const { name, description, price, category, tags, vendor, images } = this.props.product;
+    if (this.props.product) {
+      const {
+        name,
+        description,
+        price,
+        category,
+        tags,
+        vendor,
+        images
+      } = this.props.product;
       this.setState({
         name,
         description,
@@ -41,7 +39,7 @@ class ProductForm extends React.Component {
         images
       });
     }
-  }
+  };
 
   _handleChange = e => {
     const { name, value } = e.target;
@@ -77,10 +75,15 @@ class ProductForm extends React.Component {
           }
         }
       });
-      this.setState({
-        loading: false,
-        success: true
-      });
+      this.setState(
+        {
+          loading: false,
+          success: true
+        },
+        () => {
+          this.props.history.push("/manager/products");
+        }
+      );
     } else {
       await this.props.mutation({
         variables: {
@@ -91,7 +94,6 @@ class ProductForm extends React.Component {
             price,
             category,
             tags,
-            vendor,
             images
           }
         }
@@ -99,17 +101,21 @@ class ProductForm extends React.Component {
       this.setState({
         loading: false,
         success: true
+      }, () => {
+        this.props.history.push('/manager/products')
       });
     }
   };
 
   setImageId = id => {
+    const imageIds = this.state.images.map(image => image._id);
     this.setState({
-      images: [id]
+      images: [...imageIds, id]
     });
   };
 
   render() {
+    console.log(this.props);
     return (
       <Card fluid raised style={{ width: "960px" }} centered>
         <Card.Content>
@@ -158,13 +164,19 @@ class ProductForm extends React.Component {
               <input
                 name="tags"
                 onChange={this._handleChange}
-                value={this.state.tags}
+                value={this.state.tags || ""}
               />
             </Form.Field>
-            <Form.Field width="5">
-              <label>Upload Image</label>
-              <ImageUpload setImageId={this.setImageId} />
-            </Form.Field>
+            {this.props.product && (
+              <Form.Field width="5">
+                <label>Upload Image</label>
+                <ImageUpload
+                  setImageId={this.setImageId}
+                  productId={this.props.product._id}
+                />
+              </Form.Field>
+            )}
+            
             <Button type="submit">Submit</Button>
             <Message
               success
@@ -178,6 +190,4 @@ class ProductForm extends React.Component {
   }
 }
 
-export default compose(
-  graphql(S3_UPLOAD, { name: "uploadImage" })
-)(ProductForm);
+export default ProductForm;

@@ -4,7 +4,7 @@ import Dropzone from "react-dropzone";
 import axios from "axios";
 import moment from "moment";
 import gql from "graphql-tag";
-import { Button, Form, Input } from "antd";
+import { Button, Input } from "antd";
 
 const S3_SIGN_REQUEST = gql`
   mutation SignS3($filename: String!, $filetype: String!) {
@@ -16,8 +16,20 @@ const S3_SIGN_REQUEST = gql`
 `;
 
 const CREATE_PICTURE = gql`
-  mutation($name: String!, $pictureUrl: String!) {
-    createPicture(name: $name, pictureUrl: $pictureUrl) {
+  mutation(
+    $name: String!
+    $pictureUrl: String!
+    $product: String
+    $vendor: String
+    $customer: String
+  ) {
+    createPicture(
+      name: $name
+      pictureUrl: $pictureUrl
+      product: $product
+      vendor: $vendor
+      customer: $customer
+    ) {
       _id
       name
       pictureUrl
@@ -82,7 +94,8 @@ class ImageUpload extends Component {
     const graphqlResponse = await createPicture({
       variables: {
         name,
-        pictureUrl: url
+        pictureUrl: url,
+        product: this.props.productId
       }
     });
 

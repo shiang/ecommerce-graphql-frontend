@@ -12,6 +12,10 @@ const GET_PRODUCT = gql`
       description
       price
       category
+      images {
+        _id
+        pictureUrl
+      }
       vendor {
         _id
       }
@@ -27,27 +31,43 @@ const UPDATE_PRODUCT = gql`
       description
       price
       category
+      images {
+        _id
+        pictureUrl
+      }
     }
   }
 `;
+
+const updateCache = (cache, { data: { updateProduct } }) => {
+  const { product } = cache.readQuery({
+    query: GET_PRODUCT,
+    variables: { _id: updateProduct._id }
+  });
+
+  console.log(product);
+
+  cache.writeQuery({ query: GET_PRODUCT, data: { product: product } });
+};
 
 class UpdateProductPage extends React.Component {
   render() {
     return (
       <Query
         query={GET_PRODUCT}
-        variables={{ _id: "5afe421799db150e0954eaf5" }}
+        variables={{ _id: this.props.match.params.id }}
       >
         {({ loading, error, data }) => {
           if (!loading) {
             //console.log(data);
             return (
-              <Mutation mutation={UPDATE_PRODUCT}>
+              <Mutation mutation={UPDATE_PRODUCT} update={updateCache}>
                 {updateProduct => {
                   return (
                     <ProductForm
                       mutation={updateProduct}
                       product={data.product}
+                      history={this.props.history}
                     />
                   );
                 }}
