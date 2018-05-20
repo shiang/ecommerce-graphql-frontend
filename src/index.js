@@ -14,10 +14,16 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CreateProductPage from "./pages/CreateProductPage";
 import UpdateProductPage from "./pages/UpdateProductPage";
 import Product from "./Product";
+import ProductDetailPage from "./pages/ProductDetailPage";
 import Profile from "./components/Profile";
-import FourOFour from "./pages/404/404"
+import ShoppingCartPage from "./pages/ShoppingCartPage";
+import CheckoutForm from "./components/CheckoutForm";
+import AllProducts from "./components/AllProducts";
+import FourOFour from "./pages/404/404";
 import MainLayout from "./MainLayout";
+import CustomerLayout from "./CustomerLayout";
 import "semantic-ui-css/semantic.min.css";
+import CartDetail from "./components/CartDetail";
 
 const httpLink = new HttpLink({
   uri: "http://localhost:4000/graphql"
@@ -53,9 +59,21 @@ const Root = () => {
   return <ApolloProvider client={client}>
       <Router>
         <Switch>
-        <Route exact path="/manager/profile" render={props => <MainLayout {...props}>
-          <Profile {...props} />
-        </MainLayout>} />
+          <Route exact path="/products" render={props => <CustomerLayout {...props}>
+                <AllProducts {...props} />
+              </CustomerLayout>} />
+          <Route exact path="/checkout" render={props => <CustomerLayout {...props}>
+                <CheckoutForm {...props} />
+              </CustomerLayout>} />
+          <Route exact path="/shoppingcart" render={props => <CustomerLayout {...props}>
+                <ShoppingCartPage {...props} />
+              </CustomerLayout>} />
+          <Route exact path="/products/:id" render={props => <CustomerLayout {...props}>
+                <ProductDetailPage {...props} />
+              </CustomerLayout>} />
+          <Route exact path="/manager/profile" render={props => <MainLayout {...props}>
+                <Profile {...props} />
+              </MainLayout>} />
           <Route exact path="/manager/products" render={props => <MainLayout {...props}>
                 <Product {...props} />
               </MainLayout>} />

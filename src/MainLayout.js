@@ -83,7 +83,7 @@ export default class MainLayout extends React.Component {
           </Menu>
         </Sider>
         <Layout style={{ marginLeft: this.state.collapsed ? 100 : 200 }}>
-          <Header style={{ background: "#fff", width: "100%" }}>
+          <Header style={{ background: "#fff", width: "100%", position: 'fixed', zIndex: 500 }}>
             <Badge dot >
               <Avatar
                 src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
@@ -91,7 +91,7 @@ export default class MainLayout extends React.Component {
               />
             </Badge>
           </Header>
-          <Content style={{ padding: "0 50px", marginTop: 64 }}>
+          <Content style={{ padding: "0 50px", marginTop: 74 }}>
             <div style={{ padding: 24, background: "#fff", minHeight: 360 }}>
               {this.props.children}
             </div>
