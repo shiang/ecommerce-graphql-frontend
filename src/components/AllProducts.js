@@ -8,6 +8,7 @@ import { ALL_PRODUCTS } from "../queries";
 
 class AllProducts extends Component {
   render() {
+    console.log(this.props);
     return (
       <Query query={ALL_PRODUCTS}>
         {({ loading, error, data }) => {
@@ -40,7 +41,7 @@ class AllProducts extends Component {
                       raised
                       onClick={() => {
                         this.props.history.push(
-                          `/manager/products/${_id}`
+                          `/products/${_id}`
                         );
                       }}
                     >

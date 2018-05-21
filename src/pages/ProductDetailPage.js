@@ -11,7 +11,7 @@ class ProductDetailPage extends React.Component {
     return (
       <Query
         query={GET_PRODUCT}
-        variables={{ _id: "5aff9cced8bdfb71cc1bc33c" }}
+        variables={{ _id: this.props.match.params.id }}
       >
         {({ data, error, loading }) => {
           if (!loading) {

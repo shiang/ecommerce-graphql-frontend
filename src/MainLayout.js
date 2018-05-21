@@ -1,6 +1,7 @@
 import React from "react";
-import { Layout, Menu, Icon, Input, Avatar, Badge } from "antd";
+import { Layout, Menu, Icon, Input, Avatar, Badge, Popover } from "antd";
 import CreateProductPage from "./pages/CreateProductPage";
+import { TokenContext } from "./components/Auth";
 // import UpdateProductPage from "./pages/UpdateProductPage";
 const { Header, Content, Footer, Sider } = Layout;
 const Search = Input.Search;
@@ -27,7 +28,17 @@ export default class MainLayout extends React.Component {
             left: 0
           }}
         >
-          <div className="logo" />
+          <div className="logo">
+            <h2
+              style={{
+                textAlign: "center",
+                marginTop: "10px",
+                color: "white"
+              }}
+            >
+              Ur-Shop
+            </h2>
+          </div>
           <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
             <SubMenu
               key="sub1"
@@ -83,14 +94,32 @@ export default class MainLayout extends React.Component {
           </Menu>
         </Sider>
         <Layout style={{ marginLeft: this.state.collapsed ? 100 : 200 }}>
-          <Header style={{ background: "#fff", width: "100%", position: 'fixed', zIndex: 500 }}>
-            <Badge dot >
-              <Avatar
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-               
-              />
-            </Badge>
-          </Header>
+          <TokenContext.Consumer>
+            {({ signOut }) => {
+              return (
+                <Header
+                  style={{
+                    background: "#fff",
+                    width: "100%",
+                    position: "fixed",
+                    zIndex: 500
+                  }}
+                >
+                  <Popover
+                    placement="bottom"
+                    title="Menu"
+                    content={<button onClick={() => signOut()}>Sign out</button>}
+                    trigger="click"
+                  >
+                    <Badge dot>
+                      <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                    </Badge>
+                  </Popover>
+                </Header>
+              );
+            }}
+          </TokenContext.Consumer>
+
           <Content style={{ padding: "0 50px", marginTop: 74 }}>
             <div style={{ padding: 24, background: "#fff", minHeight: 360 }}>
               {this.props.children}
