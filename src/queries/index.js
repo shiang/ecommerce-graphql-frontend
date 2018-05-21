@@ -93,3 +93,14 @@ export const GET_CUSTOMER = gql`
     }
   }
 `;
+
+export const GET_VENDOR_ID = gql`
+  query($_id: String!) {
+  user (_id: $_id) {
+    _id
+    vendor {
+      _id
+    }
+  }
+}
+`

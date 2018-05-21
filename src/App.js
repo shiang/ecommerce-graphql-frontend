@@ -1,11 +1,6 @@
 import React, { Component } from "react";
-import Product from "./Product";
+import SearchProduct from "./components/SearchProduct";
 import { InstantSearch, Hits, SearchBox } from "react-instantsearch/dom";
-import Login from "./Login";
-
-
-
-
 
 
 // const client = new ApolloClient({
@@ -26,17 +21,21 @@ class App extends Component {
       <div>
         <h1>This is Dashboard page</h1>
       </div>
-    )
-        
-      
+    );
   }
 }
 
 export default App;
 
-const Search = () => (
+export const Search = () => (
   <div className="container">
-    <SearchBox />
-    <Hits hitComponent={Product} />
+    <InstantSearch
+      appId="NZKNWWX3BA"
+      apiKey="9d5779a0fff8176f0b605d67dc563044"
+      indexName="products"
+    >
+      <SearchBox translations={{ placeholder: 'Search for products' }}/>
+      <SearchProduct />
+    </InstantSearch>
   </div>
 );

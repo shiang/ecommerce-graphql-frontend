@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { HttpLink } from "apollo-link-http";
-import { split } from "apollo-link";
+import { HttpLink, createHttpLink } from "apollo-link-http";
+import { split, ApolloLink } from "apollo-link";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 import "./index.css";
-import App from "./App";
+import App, { Search } from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CreateProductPage from "./pages/CreateProductPage";
@@ -20,21 +20,35 @@ import ShoppingCartPage from "./pages/ShoppingCartPage";
 import CheckoutForm from "./components/CheckoutForm";
 import AllProducts from "./components/AllProducts";
 import FourOFour from "./pages/404/404";
+import Auth from "./components/Auth";
 import MainLayout from "./MainLayout";
 import CustomerLayout from "./CustomerLayout";
 import "semantic-ui-css/semantic.min.css";
 import CartDetail from "./components/CartDetail";
 
-const httpLink = new HttpLink({
-  uri: "http://localhost:4000/graphql"
+// const httpLink = new HttpLink({
+//   uri: "http://localhost:4000/graphql"
+// });
+
+const httpLink = createHttpLink({ uri: "http://localhost:4000/graphql" });
+const middlewareLink = new ApolloLink((operation, forward) => {
+  operation.setContext({
+    headers: {
+      authorization: localStorage.getItem("token") || null
+    }
+  });
+  return forward(operation);
 });
+
+const enhancedLink = middlewareLink.concat(httpLink);
+
 
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000/subscriptions`,
   options: {
     reconnect: true,
     connectionParams: {
-      authToken: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVhZmJjODZjZjY2MmNkNGFlNjM3NTZiNCIsImVtYWlsIjoidXNlcjc3N0B1c2VyLmNvbSIsIm5hbWUiOiJ1c2VyNzc3In0sImlhdCI6MTUyNjYxMTkxNCwiZXhwIjoxNTU4MTY5NTE0fQ.1TM81XVJ_xo17BVdtMk6vBUUvDem9ujkWdB1wRTbSlE`
+      authToken: localStorage.getItem('token')
     }
   }
 });
@@ -45,7 +59,8 @@ const link = split(
     return kind === "OperationDefinition" && operation === "subscription";
   },
   wsLink,
-  httpLink
+  //httpLink
+  enhancedLink
 );
 
 const client = new ApolloClient({
@@ -56,33 +71,109 @@ const client = new ApolloClient({
 });
 
 const Root = () => {
-  return <ApolloProvider client={client}>
+  return (
+    <ApolloProvider client={client}>
       <Router>
         <Switch>
-          <Route exact path="/products" render={props => <CustomerLayout {...props}>
+          <Route exact path="/products/search" component={Search} />
+          <Route
+            exact
+            path="/"
+            render={props => (
+              <CustomerLayout {...props}>
                 <AllProducts {...props} />
-              </CustomerLayout>} />
-          <Route exact path="/checkout" render={props => <CustomerLayout {...props}>
+              </CustomerLayout>
+            )}
+          />
+          <Route
+            exact
+            path="/products"
+            render={props => (
+              <CustomerLayout {...props}>
+                <AllProducts {...props} />
+              </CustomerLayout>
+            )}
+          />
+          <Route
+            exact
+            path="/checkout"
+            render={props => (
+              <CustomerLayout {...props}>
                 <CheckoutForm {...props} />
-              </CustomerLayout>} />
-          <Route exact path="/shoppingcart" render={props => <CustomerLayout {...props}>
+              </CustomerLayout>
+            )}
+          />
+          <Route
+            exact
+            path="/shoppingcart"
+            render={props => (
+              <CustomerLayout {...props}>
                 <ShoppingCartPage {...props} />
-              </CustomerLayout>} />
-          <Route exact path="/products/:id" render={props => <CustomerLayout {...props}>
+              </CustomerLayout>
+            )}
+          />
+          <Route
+            exact
+            path="/products/:id"
+            render={props => (
+              <CustomerLayout {...props}>
                 <ProductDetailPage {...props} />
-              </CustomerLayout>} />
-          <Route exact path="/manager/profile" render={props => <MainLayout {...props}>
-                <Profile {...props} />
-              </MainLayout>} />
-          <Route exact path="/manager/products" render={props => <MainLayout {...props}>
-                <Product {...props} />
-              </MainLayout>} />
-          <Route exact path="/manager/products/new" render={props => <MainLayout {...props}>
-                <CreateProductPage {...props} />
-              </MainLayout>} />
-          <Route exact path="/manager/products/:id/edit" render={props => <MainLayout {...props}>
-                <UpdateProductPage {...props} />
-              </MainLayout>} />
+              </CustomerLayout>
+            )}
+          />
+          <Route
+            exact
+            path="/login"
+            render={props => <Auth {...props} submitButtonLabel="Log in" />}
+          />
+          <Route
+            exact
+            path="/signup"
+            render={props => <Auth {...props} submitButtonLabel="Sign up" />}
+          />
+
+          <Route
+            render={props => (
+              <Auth {...props} submitButtonLabel="Log in">
+                <Route
+                  exact
+                  path="/manager/profile"
+                  render={props => (
+                    <MainLayout {...props}>
+                      <Profile {...props} />
+                    </MainLayout>
+                  )}
+                />
+                <Route
+                  exact
+                  path="/manager/products"
+                  render={props => (
+                    <MainLayout {...props}>
+                      <Product {...props} />
+                    </MainLayout>
+                  )}
+                />
+                <Route
+                  exact
+                  path="/manager/products/new"
+                  render={props => (
+                    <MainLayout {...props}>
+                      <CreateProductPage {...props} />
+                    </MainLayout>
+                  )}
+                />
+                <Route
+                  exact
+                  path="/manager/products/:id/edit"
+                  render={props => (
+                    <MainLayout {...props}>
+                      <UpdateProductPage {...props} />
+                    </MainLayout>
+                  )}
+                />
+              </Auth>
+            )}
+          />
           <Route render={() => <FourOFour />} />
           {/* <Route
           render={props => (
@@ -93,7 +184,8 @@ const Root = () => {
         /> */}
         </Switch>
       </Router>
-    </ApolloProvider>;
+    </ApolloProvider>
+  );
 };
 
 ReactDOM.render(<Root />, document.getElementById("root"));
