@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Image, Item } from "semantic-ui-react";
+import { Grid, Image, Item, Segment } from "semantic-ui-react";
 import { Spin, notification } from "antd";
 import { Select, Modal, message } from "antd";
 import { CustomerContext } from '../CustomerLayout';
@@ -86,6 +86,8 @@ class ProductDetail extends React.Component {
                         <Item.Meta>{category}</Item.Meta>
                         <Item.Description>{description}</Item.Description>
                         <Item.Extra>{price}</Item.Extra>
+                        <Segment.Group raised>
+                          <Segment>
                         <Select
                           defaultValue="1"
                           style={{ width: "120px" }}
@@ -93,7 +95,10 @@ class ProductDetail extends React.Component {
                         >
                           {children}
                         </Select>
-                        <button onClick={() => this.addToCart(customerId)}>Add to Cart</button>
+                        </Segment>
+
+                        <Segment><button onClick={() => this.addToCart(customerId)}>Add to Cart</button></Segment>
+                        </Segment.Group>
                       </Item.Content>
                     </Item>
                   </Item.Group>

@@ -165,7 +165,7 @@ class CustomerLayout extends React.Component {
                               <Popover
                                 placement="bottomRight"
                                 title="Your cart"
-                                content="Item"
+                                content={<Link to="/shoppingcart">Check your cart</Link>}
                                 trigger="click"
                               >
                                 <Avatar icon="shopping-cart" />
