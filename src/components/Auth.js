@@ -1,13 +1,24 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import AuthForm from "./AuthForm";
-import { LOGIN } from '../mutations'
-import { Mutation } from 'react-apollo'
+import { LOGIN, SIGN_UP } from "../mutations";
+import { Mutation } from "react-apollo";
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Message,
+  Segment
+} from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import { ApolloConsumer } from "react-apollo";
+import jwtDecoder from "jwt-decode";
+import { GET_VENDOR_ID } from "../queries";
 
- 
 
-//Axios for Ajax
-//import axios from "axios";
+
 
 //Creating context
 export const TokenContext = React.createContext();
@@ -18,8 +29,9 @@ class Auth extends Component {
     super(props);
 
     //Sign out function
-    this.signOut = () => {
-      localStorage.removeItem("token");
+    this.signOut = async () => {
+      await localStorage.removeItem("token");
+      await localStorage.removeItem("vendorId");
       this.props.history.push("/");
     };
 
@@ -29,10 +41,81 @@ class Auth extends Component {
       token: localStorage.getItem("token"),
       error: false,
       signOut: this.signOut,
-      vendorId: localStorage.getItem("vendorId")
+      vendorId: localStorage.getItem("vendorId"),
+      email: "",
+      password: ""
     };
   };
 
+  
+
+  _handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  login = async (client, login) => {
+    this.setState({
+      loading: true
+    });
+    const { email, password } = this.state;
+    const result = await login({
+      variables: {
+        email,
+        password
+      }
+    });
+
+    await localStorage.setItem("token", result.data.login.token);
+
+    const decoded = await jwtDecoder(result.data.login.token);
+
+    const { data } = await client.query({
+      query: GET_VENDOR_ID,
+      variables: {
+        _id: decoded.user._id
+      }
+    });
+
+    await this.setState({
+      token: result.data.login.token,
+      vendorId: data.user.vendor._id
+    });
+
+    await localStorage.setItem("vendorId", data.user.vendor._id);
+    await this.setState(
+      {
+        loading: false
+      },
+      () => {
+        this.props.history.push(`/manager/${data.user.vendor._id}/products`);
+      }
+    );
+  };
+
+  signUp = async (client, login, signUp) => {
+    const { email, password } = this.state;
+    await signUp({
+      variables: {
+        email,
+        password
+      }
+    });
+
+    await this.login(client, login);
+  };
+
+  onSubmit = async (client, login, signUp) => {
+    //e.preventDefault()
+    if (this.props.submitButtonLabel === "Log in") {
+      this.login(client, login);
+    }
+
+    if (this.props.submitButtonLabel === "Sign up") {
+      this.signUp(client, login, signUp);
+    }
+  };
 
   //Component render function
   render() {
@@ -41,27 +124,58 @@ class Auth extends Component {
 
     //State destructuring
     const { loading, token, error } = this.state;
-    console.log(this.props);
-    return (
-      <div>
-      
-        {token ? (
-          <TokenContext.Provider value={this.state}>
+
+    return <div>
+        {token ? <TokenContext.Provider value={this.state}>
             {children}
-          </TokenContext.Provider> 
-        ) : (
-          <Mutation mutation={LOGIN}>
-            {(login) => (
-                <AuthForm 
-                history={history}
-                submitButtonLabel={submitButtonLabel}
-                login={login} 
-                />
-            )}
-          </Mutation>
-        )}
-      </div>
-    );
+          </TokenContext.Provider> : <Mutation mutation={LOGIN}>
+            {login => <Mutation mutation={SIGN_UP}>
+                {signUp => <div className="login-form">
+                    <style>{`
+      body > div,
+      body > div > div,
+      body > div > div > div.login-form {
+        height: 100%;
+      }
+    `}</style>
+                    <Grid textAlign="center" style={{ height: "100%" }} verticalAlign="middle">
+                      <Grid.Column style={{ maxWidth: 450 }}>
+                        <Header as="h2" color="teal" textAlign="center">
+                          {" "}
+                          Log-in to your account
+                        </Header>
+                        <ApolloConsumer>
+                          {client => <Form size="large" onSubmit={() => this.onSubmit(client, login, signUp)} loading={this.state.loading}>
+                              <Segment stacked>
+                                <Form.Input fluid icon="user" iconPosition="left" placeholder="E-mail address" name="email" onChange={this._handleChange} />
+                                <Form.Input fluid icon="lock" iconPosition="left" placeholder="Password" type="password" name="password" onChange={this._handleChange} />
+                                {this.props.submitButtonLabel === "Sign up" && <Form.Input fluid icon="lock" iconPosition="left" placeholder="Password" type="password" />}
+
+                                <Button color="teal" fluid size="large">
+                                  {this.props.submitButtonLabel}
+                                </Button>
+                              </Segment>
+                            </Form>}
+                        </ApolloConsumer>
+                        {this.props.submitButtonLabel === "Log in" && <Message>
+                            New to us?
+                            <Link to="/signup">Sign up</Link>
+                          </Message>}
+                        {this.props.submitButtonLabel === "Sign up" && <Message>
+                            Already have an account?
+                            <Link to="/login">Log in</Link>
+                          </Message>}
+                  <form action="https://60ec4565.ngrok.io/auth/google">
+                          <Button color="red" fluid size="large">
+                            or sign in with Google
+                          </Button>
+                        </form>
+                      </Grid.Column>
+                    </Grid>
+                  </div>}
+              </Mutation>}
+          </Mutation>}
+      </div>;
   }
 }
 

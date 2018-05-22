@@ -18,7 +18,11 @@ class ProductDetailPage extends React.Component {
             return (
                 <Mutation mutation={ADD_TO_CART}>
                     {(addToCart) => {
-                        return <ProductDetail product={data.product} mutation={addToCart} />;
+                        return <ProductDetail 
+                        product={data.product} 
+                        mutation={addToCart} 
+                        history={this.props.history}
+                        />;
                     }}
                 </Mutation>
             )

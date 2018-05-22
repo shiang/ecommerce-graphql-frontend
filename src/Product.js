@@ -4,7 +4,8 @@ import { Query, Subscription } from "react-apollo";
 import { Button } from "semantic-ui-react";
 import { Card, Icon, Image } from "semantic-ui-react";
 import { Spin, BackTop, notification } from "antd";
-import { PRODUCT_CREATED, CHATROOM_CREATED, ALL_PRODUCTS } from "./queries";
+import { PRODUCT_CREATED, CHATROOM_CREATED, FETCH_VENDOR } from "./queries";
+import { TokenContext } from './components/Auth'
 
 
 
@@ -21,21 +22,21 @@ class Product extends Component {
             // })
             console.log(data);
           }
-          return <Query query={ALL_PRODUCTS}>
+          return <Query query={FETCH_VENDOR} variables={{ _id: this.props.match.params.id }}>
               {({ loading, error, data }) => {
                 if (!loading) {
                   //console.log("Product Data: ", data);
                   //console.log("Hits props: ", this.props.hit);
 
-                  return <Card.Group stackable itemsPerRow="5">
+                  return <Card.Group stackable itemsPerRow="4">
                       <BackTop />
-                      {data.allProducts.map(product => {
+                      {data.vendor.products.map(product => {
                         const { name, price, description, category, _id, images } = product;
 
                         const imageUrl = images.length > 0 ? images[0].pictureUrl : "http://fillmurray.com/200/300";
 
                         return <Card key={_id} fluid raised onClick={() => {
-                              this.props.history.push(`/manager/products/${_id}/edit`);
+                              this.props.history.push(`/manager/${this.props.match.params.id}/products/${_id}/edit`);
                             }}>
                             <Image src={imageUrl} fluid />
                             <Card.Content>

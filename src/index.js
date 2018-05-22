@@ -10,7 +10,11 @@ import { getMainDefinition } from "apollo-utilities";
 import "./index.css";
 import App, { Search } from "./App";
 import registerServiceWorker from "./registerServiceWorker";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,  
+} from "react-router-dom";
 import CreateProductPage from "./pages/CreateProductPage";
 import UpdateProductPage from "./pages/UpdateProductPage";
 import Product from "./Product";
@@ -19,6 +23,8 @@ import Profile from "./components/Profile";
 import ShoppingCartPage from "./pages/ShoppingCartPage";
 import CheckoutForm from "./components/CheckoutForm";
 import AllProducts from "./components/AllProducts";
+import AllVendors from "./components/AllVendors";
+import CustomerProfile from "./components/CustomerProfile";
 import FourOFour from "./pages/404/404";
 import Auth from "./components/Auth";
 import MainLayout from "./MainLayout";
@@ -26,11 +32,15 @@ import CustomerLayout from "./CustomerLayout";
 import "semantic-ui-css/semantic.min.css";
 import CartDetail from "./components/CartDetail";
 
+
 // const httpLink = new HttpLink({
 //   uri: "http://localhost:4000/graphql"
 // });
 
-const httpLink = createHttpLink({ uri: "http://localhost:4000/graphql" });
+const httpLink = createHttpLink({
+  uri: "https://60ec4565.ngrok.io/graphql",
+  credentials: "include"
+});
 const middlewareLink = new ApolloLink((operation, forward) => {
   operation.setContext({
     headers: {
@@ -42,13 +52,12 @@ const middlewareLink = new ApolloLink((operation, forward) => {
 
 const enhancedLink = middlewareLink.concat(httpLink);
 
-
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000/subscriptions`,
   options: {
     reconnect: true,
     connectionParams: {
-      authToken: localStorage.getItem('token')
+      authToken: localStorage.getItem("token")
     }
   }
 });
@@ -75,25 +84,44 @@ const Root = () => {
     <ApolloProvider client={client}>
       <Router>
         <Switch>
-          <Route exact path="/products/search" component={Search} />
+          <Route
+            exact
+            path="/vendors"
+            render={props => (
+              <CustomerLayout {...props}>
+                <AllVendors {...props} />
+              </CustomerLayout>
+            )}
+          />
+          <Route
+            exact
+            path="/vendors/:id"
+            render={props => (
+              <CustomerLayout {...props}>
+                <AllProducts {...props} />
+              </CustomerLayout>
+            )}
+          />
+          <Route
+            exact
+            path="/customers/:id/profile"
+            render={props => (
+              <CustomerLayout {...props}>
+                <CustomerProfile />
+              </CustomerLayout>
+            )}
+          />
           <Route
             exact
             path="/"
             render={props => (
               <CustomerLayout {...props}>
-                <AllProducts {...props} />
+                <AllVendors {...props} />
               </CustomerLayout>
             )}
           />
-          <Route
-            exact
-            path="/products"
-            render={props => (
-              <CustomerLayout {...props}>
-                <AllProducts {...props} />
-              </CustomerLayout>
-            )}
-          />
+          <Route exact path="/products/search" component={Search} />
+
           <Route
             exact
             path="/checkout"
@@ -114,7 +142,7 @@ const Root = () => {
           />
           <Route
             exact
-            path="/products/:id"
+            path="/vendors/:id/products/:id"
             render={props => (
               <CustomerLayout {...props}>
                 <ProductDetailPage {...props} />
@@ -133,55 +161,66 @@ const Root = () => {
           />
 
           <Route
+            exact
+            path="/manager/:id/profile"
             render={props => (
               <Auth {...props} submitButtonLabel="Log in">
-                <Route
-                  exact
-                  path="/manager/profile"
-                  render={props => (
-                    <MainLayout {...props}>
-                      <Profile {...props} />
-                    </MainLayout>
-                  )}
-                />
-                <Route
-                  exact
-                  path="/manager/products"
-                  render={props => (
-                    <MainLayout {...props}>
-                      <Product {...props} />
-                    </MainLayout>
-                  )}
-                />
-                <Route
-                  exact
-                  path="/manager/products/new"
-                  render={props => (
-                    <MainLayout {...props}>
-                      <CreateProductPage {...props} />
-                    </MainLayout>
-                  )}
-                />
-                <Route
-                  exact
-                  path="/manager/products/:id/edit"
-                  render={props => (
-                    <MainLayout {...props}>
-                      <UpdateProductPage {...props} />
-                    </MainLayout>
-                  )}
-                />
+                <MainLayout {...props}>
+                  <Profile {...props} />
+                </MainLayout>
               </Auth>
             )}
           />
-          <Route render={() => <FourOFour />} />
-          {/* <Route
-          render={props => (
-            <Auth {...props} submitButtonLabel="Login">
-              <Route exact path="/profile" component={Profile} />
-            </Auth>
-          )}
-        /> */}
+
+          <Route
+            exact
+            path="/manager/:id"
+            render={props => (
+              <Auth {...props} submitButtonLabel="Log in">
+                <MainLayout {...props}>
+                  <Product {...props} />
+                </MainLayout>
+              </Auth>
+            )}
+          />
+
+          <Route
+            exact
+            path="/manager/:id/products"
+            render={props => (
+              <Auth {...props} submitButtonLabel="Log in">
+                <MainLayout {...props}>
+                  <Product {...props} />
+                </MainLayout>
+              </Auth>
+            )}
+          />
+
+          <Route
+            exact
+            path="/manager/:id/products/new"
+            render={props => (
+              <Auth {...props} submitButtonLabel="Log in">
+                <MainLayout {...props}>
+                  <CreateProductPage {...props} />
+                </MainLayout>
+              </Auth>
+            )}
+          />
+
+          <Route
+            exact
+            path="/manager/:id/products/:id/edit"
+            render={props => (
+              <Auth {...props} submitButtonLabel="Log in">
+                <MainLayout {...props}>
+                  <UpdateProductPage {...props} />
+                </MainLayout>
+              </Auth>
+            )}
+          />
+
+          <Route path="*" render={() => <FourOFour />} />
         </Switch>
       </Router>
     </ApolloProvider>
