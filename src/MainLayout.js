@@ -2,6 +2,7 @@ import React from "react";
 import { Layout, Menu, Icon, Input, Avatar, Badge, Popover } from "antd";
 import CreateProductPage from "./pages/CreateProductPage";
 import { TokenContext } from "./components/Auth";
+import { Image } from 'semantic-ui-react'
 import HeaderLogo from "./image/dot-shop-logo.png";
 // import UpdateProductPage from "./pages/UpdateProductPage";
 const { Header, Content, Footer, Sider } = Layout;
