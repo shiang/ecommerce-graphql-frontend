@@ -81,7 +81,7 @@ class ProductForm extends React.Component {
           success: true
         },
         () => {
-          this.props.history.push(`/manager/${this.props.product._id}/products`);
+          this.props.history.push(`/manager/${this.props.vendorId}/products`);
         }
       );
     } else {
@@ -102,7 +102,7 @@ class ProductForm extends React.Component {
         loading: false,
         success: true
       }, () => {
-        this.props.history.push(`/manager/${this.props.product._id}/products`);
+        this.props.history.push(`/manager/${this.props.vendorId}/products`);
       });
     }
   };
