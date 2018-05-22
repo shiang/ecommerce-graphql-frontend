@@ -22,7 +22,7 @@ export default class MainLayout extends React.Component {
       {({ signOut, vendorId }) => {
         return <Layout>
             <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} style={{ minHeight: "100vh", overflow: "auto", position: "fixed", left: 0 }}>
-              <div className="logo">
+              <div className="logo" style={{ marginLeft: '10px', backgroundColor: '#fff' }}>
                 <Image src={HeaderLogo} alt="logo" height="50px" />
               </div>
               <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
