@@ -37,7 +37,7 @@ class CustomerLayout extends React.Component {
 
   logOut = () => {
     localStorage.removeItem("customerId");
-  }
+  };
 
   render() {
     const { customerId } = this.state;
@@ -67,26 +67,11 @@ class CustomerLayout extends React.Component {
                   margin: "5px"
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    backgroundColor: "#fff",
-                    padding: "5px",
-                    margin: "5px"
-                  }}
-                >
-                  <Link to="/">
-                    <Image
-                      src={HeaderLogo}
-                      alt="logo"
-                      height="50px"
-                    />
-                  </Link>
-                </div>
-              <Avatar icon="user" />
+                <Link to="/">
+                  <Image src={HeaderLogo} alt="logo" height="50px" />
+                </Link>
               </div>
+              <Avatar icon="user" />
             </Header>
             <Content style={{ padding: "0 50px", marginTop: 64 }}>
               <div
@@ -165,10 +150,16 @@ class CustomerLayout extends React.Component {
                                 <Avatar icon="shopping-cart" />
                               </Popover>
                               <Popover
-                              placement="bottomRight"
-                              title="User menu"
-                              content={<a href="https://ur-shop-graphql-server.now.sh/logout"><button onClick={this.logOut}>Log out</button></a>}
-                              trigger="click"
+                                placement="bottomRight"
+                                title="User menu"
+                                content={
+                                  <a href="https://ur-shop-graphql-server.now.sh/logout">
+                                    <button onClick={this.logOut}>
+                                      Log out
+                                    </button>
+                                  </a>
+                                }
+                                trigger="click"
                               >
                                 <Avatar icon="user" />
                               </Popover>
