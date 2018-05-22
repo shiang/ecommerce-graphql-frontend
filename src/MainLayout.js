@@ -99,11 +99,12 @@ export default class MainLayout extends React.Component {
             <Layout style={{ marginLeft: this.state.collapsed ? 100 : 200 }}>
               <Header
                 style={{
-                  background: "#fff",
-                  width: "100%",
                   position: "fixed",
+                  width: "100%",
                   zIndex: 500,
-                  
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "flex-end"
                 }}
               >
                 <Popover
