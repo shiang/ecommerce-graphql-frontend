@@ -84,8 +84,8 @@ class CustomerLayout extends React.Component {
                   placement="bottomRight"
                   title="User menu"
                   content={
-                    <Link to="/">
-                      <button onClick={this.logOut}>Log in</button>
+                    <Link to="/login">
+                      Log in
                     </Link>
                   }
                   trigger="click"
