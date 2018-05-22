@@ -38,7 +38,7 @@ import CartDetail from "./components/CartDetail";
 // });
 
 const httpLink = createHttpLink({
-  uri: "https://60ec4565.ngrok.io/graphql",
+  uri: "https://ur-shop-graphql-server.now.sh/graphql",
   credentials: "include"
 });
 const middlewareLink = new ApolloLink((operation, forward) => {
@@ -53,12 +53,12 @@ const middlewareLink = new ApolloLink((operation, forward) => {
 const enhancedLink = middlewareLink.concat(httpLink);
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000/subscriptions`,
+  uri: `wss://ur-shop-graphql-server.now.sh/subscriptions`,
   options: {
-    reconnect: true,
-    connectionParams: {
-      authToken: localStorage.getItem("token")
-    }
+    reconnect: true
+    // connectionParams: {
+    //   authToken: localStorage.getItem("token")
+    // }
   }
 });
 

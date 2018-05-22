@@ -165,7 +165,7 @@ class Auth extends Component {
                             Already have an account?
                             <Link to="/login">Log in</Link>
                           </Message>}
-                  <form action="https://60ec4565.ngrok.io/auth/google">
+                        <form action="https://ur-shop-graphql-server.now.sh/auth/google">
                           <Button color="red" fluid size="large">
                             or sign in with Google
                           </Button>

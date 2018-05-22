@@ -22,7 +22,7 @@ export default class extends Component {
             </div>
 
             <div className="iso404Artwork">
-              <img alt="#" src={Image} />
+              <img alt="404Image" src={Image} />
             </div>
           </FourZeroFourStyleWrapper>;
     }
