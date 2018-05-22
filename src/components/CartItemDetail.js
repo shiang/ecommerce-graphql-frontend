@@ -36,6 +36,8 @@ class CartItemDetail extends React.Component {
   render() {
     const { item } = this.props;
 
+    const imageUrl = item.product.images.length > 0 ? item.product.images[0].pictureUrl : "http://fillmurray.com/200/300"
+
     return (
       <List.Item
         actions={[
@@ -47,7 +49,7 @@ class CartItemDetail extends React.Component {
       >
         <List.Item.Meta
           avatar={
-            <Avatar src={item.product.images[0].pictureUrl} size="large" />
+            <Avatar src={imageUrl} size="large" />
           }
           title={
             <Link to="/">

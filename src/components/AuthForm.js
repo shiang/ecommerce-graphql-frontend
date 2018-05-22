@@ -16,7 +16,8 @@ import { GET_VENDOR_ID } from "../queries";
 class AuthForm extends React.Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    loading: false
   };
 
   _handleChange = e => {
@@ -25,9 +26,10 @@ class AuthForm extends React.Component {
     });
   };
 
-  onSubmit = async client => {
-    //e.preventDefault()
-
+  login = async (client) => {
+    this.setState({
+      loading: true
+    });
     const { email, password } = this.state;
     const result = await this.props.login({
       variables: {
@@ -47,9 +49,40 @@ class AuthForm extends React.Component {
       }
     });
 
-    await localStorage.setItem("vendorId", data.user.vendor._id);
 
-    this.props.history.push("/products");
+    await localStorage.setItem("vendorId", data.user.vendor._id);
+    await this.setState({
+      loading: false
+    }, () => {
+      this.props.history.push(`/manager/${data.user.vendor_id}/products`);
+    });
+
+    
+  };
+
+  signUp = async(client) => {
+    const { email, password } = this.state;
+    await this.props.signUp({
+      variables: {
+        email,
+        password
+      }
+    });
+
+    await this.login(client)
+  }
+
+  onSubmit = async client => {
+    //e.preventDefault()
+    if(this.props.submitButtonLabel === "Log in") {
+      this.login(client);
+    }
+
+    if(this.props.submitButtonLabel === "Sign up") {
+      this.signUp(client);
+    }
+  
+    
   };
 
   render() {
@@ -79,7 +112,11 @@ class AuthForm extends React.Component {
             </Header>
             <ApolloConsumer>
               {client => (
-                <Form size="large" onSubmit={() => this.onSubmit(client)}>
+                <Form 
+                size="large" 
+                onSubmit={() => this.onSubmit(client)}
+                loading={this.state.loading}
+                >
                   <Segment stacked>
                     <Form.Input
                       fluid

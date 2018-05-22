@@ -16,6 +16,25 @@ export const ALL_PRODUCTS = gql`
   }
 `;
 
+export const FETCH_VENDOR = gql`
+  query($_id: String!) {
+    vendor(_id: $_id) {
+      _id
+      products {
+        _id
+        name
+        description
+        price
+        category
+        images {
+          _id
+          pictureUrl
+        }
+      }
+    }
+  }
+`;
+
 export const PRODUCT_CREATED = gql`
   subscription {
     productCreated {
@@ -96,11 +115,48 @@ export const GET_CUSTOMER = gql`
 
 export const GET_VENDOR_ID = gql`
   query($_id: String!) {
-  user (_id: $_id) {
-    _id
-    vendor {
+    user(_id: $_id) {
       _id
+      vendor {
+        _id
+      }
     }
   }
-}
-`
+`;
+
+export const ALL_VENDORS = gql`
+  query {
+    allVendors {
+      _id
+      name
+      description
+      pictures {
+        _id
+        pictureUrl
+      }
+    }
+  }
+`;
+
+export const FETCH_CUSTOMER = gql`
+         query($_id: String!) {
+           customer(_id: $_id) {
+             _id
+             name
+             email
+             cart {
+               _id
+               quantity
+               product {
+                 _id
+                 name
+                 description
+                 images {
+                   _id
+                   pictureUrl
+                 }
+               }
+             }
+           }
+         }
+       `;
