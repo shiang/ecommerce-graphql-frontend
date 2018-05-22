@@ -4,6 +4,7 @@ import CreateProductPage from "./pages/CreateProductPage";
 import { TokenContext } from "./components/Auth";
 import { Image } from 'semantic-ui-react'
 import HeaderLogo from "./image/dot-shop-logo.png";
+import { Link } from 'react-router-dom'
 // import UpdateProductPage from "./pages/UpdateProductPage";
 const { Header, Content, Footer, Sider } = Layout;
 const Search = Input.Search;
@@ -22,8 +23,8 @@ export default class MainLayout extends React.Component {
       {({ signOut, vendorId }) => {
         return <Layout>
             <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} style={{ minHeight: "100vh", overflow: "auto", position: "fixed", left: 0 }}>
-              <div className="logo" style={{ marginLeft: '10px', backgroundColor: '#fff' }}>
-                <Image src={HeaderLogo} alt="logo" height="50px" />
+              <div className="logo" style={{ margin: '5px', backgroundColor: '#fff', padding: '5px' }}>
+                <Link to={`/manager/${vendorId}/products`}><Image src={HeaderLogo} alt="logo" height="50px" centered fluid size="small" /></Link>
               </div>
               <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
                 <SubMenu key="sub1" title={<span>
@@ -61,7 +62,7 @@ export default class MainLayout extends React.Component {
               </Menu>
             </Sider>
             <Layout style={{ marginLeft: this.state.collapsed ? 100 : 200 }}>
-              <Header style={{ position: "fixed", width: "100%", zIndex: 500, display: "flex", flexDirection: "row", justifyContent: "flex-end" }}>
+              <Header style={{ position: "fixed", width: "100%", zIndex: 500 }}>
                <div>
                 <Popover placement="bottom" title="Menu" content={<button
                       onClick={() => signOut()}

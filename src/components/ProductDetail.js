@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Image, Item, Segment } from "semantic-ui-react";
+import { Grid, Image, Item, Segment, Button } from "semantic-ui-react";
 import { Spin, notification } from "antd";
 import { Select, Modal, message } from "antd";
 import { CustomerContext } from '../CustomerLayout';
@@ -97,7 +97,7 @@ class ProductDetail extends React.Component {
                         </Select>
                         </Segment>
 
-                        <Segment><button onClick={() => this.addToCart(customerId)}>Add to Cart</button></Segment>
+                        <Segment><Button fluid onClick={() => this.addToCart(customerId)}>Add to Cart</Button></Segment>
                         </Segment.Group>
                       </Item.Content>
                     </Item>

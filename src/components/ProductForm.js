@@ -58,9 +58,10 @@ class ProductForm extends React.Component {
       vendor,
       images
     } = this.state;
+
     this.setState({ loading: true });
 
-    console.log(this.state);
+    
     if (!this.props.product) {
       await this.props.mutation({
         variables: {
@@ -75,15 +76,15 @@ class ProductForm extends React.Component {
           }
         }
       });
+
       this.setState(
         {
           loading: false,
           success: true
-        },
-        () => {
-          this.props.history.push(`/manager/${this.props.vendorId}/products`);
         }
       );
+
+      this.props.history.push(`/manager/${this.props.vendorId}/products`);
     } else {
       await this.props.mutation({
         variables: {
@@ -101,9 +102,9 @@ class ProductForm extends React.Component {
       this.setState({
         loading: false,
         success: true
-      }, () => {
-        this.props.history.push(`/manager/${this.props.vendorId}/products`);
       });
+
+      this.props.history.push(`/manager/${this.props.vendorId}/products`);
     }
   };
 
