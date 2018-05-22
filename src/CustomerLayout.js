@@ -71,7 +71,28 @@ class CustomerLayout extends React.Component {
                   <Image src={HeaderLogo} alt="logo" height="50px" />
                 </Link>
               </div>
-              <Avatar icon="user" />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "100px"
+                }}
+              >
+                <Popover
+                  placement="bottomRight"
+                  title="User menu"
+                  content={
+                    <Link to="/">
+                      <button onClick={this.logOut}>Log in</button>
+                    </Link>
+                  }
+                  trigger="click"
+                >
+                  <Avatar icon="user" />
+                </Popover>
+              </div>
             </Header>
             <Content style={{ padding: "0 50px", marginTop: 64 }}>
               <div
