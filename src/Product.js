@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import gql from "graphql-tag";
-import { Query, Subscription } from "react-apollo";
-import { Button } from "semantic-ui-react";
-import { Card, Icon, Image } from "semantic-ui-react";
-import { Spin, BackTop, notification } from "antd";
-import { PRODUCT_CREATED, FETCH_VENDOR } from "./queries";
+import { Query } from "react-apollo";
+import { Card, Image } from "semantic-ui-react";
+import { Spin, BackTop } from "antd";
+import { FETCH_VENDOR } from "./queries";
 import { TokenContext } from "./components/Auth";
 
 class Product extends Component {
@@ -12,17 +10,14 @@ class Product extends Component {
     return (
       <TokenContext.Consumer>
         {({ vendorId }) => (
-          <Query
-            query={FETCH_VENDOR}
-            variables={{ _id: vendorId }}
-          >
+          <Query query={FETCH_VENDOR} variables={{ _id: vendorId || this.props.matach.params.id }}>
             {({ loading, error, data }) => {
               if (!loading) {
-                //console.log("Product Data: ", data);
+                console.log("Product Data: ", data);
                 //console.log("Hits props: ", this.props.hit);
 
                 return (
-                  <Card.Group stackable itemsPerRow="4">
+                  <Card.Group stackable doubling itemsPerRow="5">
                     <BackTop />
                     {data.vendor.products.map(product => {
                       const {
@@ -46,9 +41,7 @@ class Product extends Component {
                           raised
                           onClick={() => {
                             this.props.history.push(
-                              `/manager/${
-                              vendorId
-                              }/products/${_id}/edit`
+                              `/manager/${vendorId}/products/${_id}/edit`
                             );
                           }}
                         >

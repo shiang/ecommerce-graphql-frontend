@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import AuthForm from "./AuthForm";
 import { LOGIN, SIGN_UP } from "../mutations";
 import { Mutation } from "react-apollo";
 import {
@@ -8,7 +7,6 @@ import {
   Form,
   Grid,
   Header,
-  Image,
   Message,
   Segment
 } from "semantic-ui-react";
@@ -120,10 +118,10 @@ class Auth extends Component {
   //Component render function
   render() {
     //Props destructuring
-    const { submitButtonLabel, children, history } = this.props;
+    const { children } = this.props;
 
     //State destructuring
-    const { loading, token, error } = this.state;
+    const { token } = this.state;
 
     return <div>
         {token ? <TokenContext.Provider value={this.state}>

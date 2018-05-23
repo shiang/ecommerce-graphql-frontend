@@ -1,8 +1,7 @@
 import React from "react";
-import { Grid, Image, Item } from "semantic-ui-react";
 import { Mutation, Query } from "react-apollo";
 import { GET_PRODUCT } from "../queries";
-import { Spin, notification, Select } from "antd";
+import { Spin } from "antd";
 import ProductDetail from "../components/ProductDetail";
 import { ADD_TO_CART } from "../mutations";
 

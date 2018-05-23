@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SearchProduct from "./components/SearchProduct";
-import { InstantSearch, Hits, SearchBox } from "react-instantsearch/dom";
+import { InstantSearch, SearchBox } from "react-instantsearch/dom";
 
 
 // const client = new ApolloClient({

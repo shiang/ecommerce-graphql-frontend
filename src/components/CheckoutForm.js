@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Form, Table, Button } from "semantic-ui-react";
 import { Row, Col } from "antd";
 
-class CheckoutForm extends React.Component {
+class CheckoutForm extends Component {
     render() {
         return <Row type="flex" justify="space-around">
             <Col span={12}>

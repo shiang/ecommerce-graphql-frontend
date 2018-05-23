@@ -1,7 +1,6 @@
 import React from "react";
-import { Layout, Menu, Breadcrumb, Avatar, Icon, Spin, Popover } from "antd";
+import { Layout, Avatar, Spin, Popover } from "antd";
 import { Image } from "semantic-ui-react";
-import { Search } from "./App";
 import axios from "axios";
 import { Query, Subscription } from "react-apollo";
 import { FETCH_CUSTOMER } from "./queries";

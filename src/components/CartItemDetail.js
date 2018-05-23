@@ -1,6 +1,5 @@
 import React from "react";
-import { Select, InputNumber, List, Avatar, Button, Spin } from "antd";
-import { Image } from "semantic-ui-react";
+import { InputNumber, List, Avatar, Button } from "antd";
 import { Link } from "react-router-dom";
 
 class CartItemDetail extends React.Component {

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import gql from "graphql-tag";
-import { Query, Subscription } from "react-apollo";
-import { Button } from "semantic-ui-react";
-import { Card, Icon, Image } from "semantic-ui-react";
-import { Spin, BackTop, notification } from "antd";
+import { Query } from "react-apollo";
+import { Card, Image } from "semantic-ui-react";
+import { Spin, BackTop } from "antd";
 import { ALL_VENDORS } from "../queries";
 
 class AllVendors extends Component {

@@ -1,7 +1,7 @@
 import React from "react";
-import { Grid, Image, Item } from "semantic-ui-react";
+import { Grid, Item } from "semantic-ui-react";
 import { GET_VENDOR } from "../queries"
-import { Mutation, Query } from "react-apollo";
+import { Query } from "react-apollo";
 import { Spin, Switch } from "antd";
 
 class Profile extends React.Component {

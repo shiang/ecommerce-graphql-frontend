@@ -1,8 +1,7 @@
 import React from "react";
-import { Grid, Image, Item } from "semantic-ui-react";
-import { Mutation, Query } from "react-apollo";
+import { Query } from "react-apollo";
 import { GET_CUSTOMER } from "../queries";
-import { Spin, notification, Select } from "antd";
+import { Spin } from "antd";
 import CartDetail from "../components/CartDetail";
 import { CustomerContext } from '../CustomerLayout'
 

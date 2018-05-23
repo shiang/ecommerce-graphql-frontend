@@ -45,7 +45,6 @@ const updateCache = (cache, { data: { updateProduct } }) => {
     variables: { _id: updateProduct._id }
   });
 
-  console.log(product);
 
   cache.writeQuery({ query: GET_PRODUCT, data: { product: product } });
 };

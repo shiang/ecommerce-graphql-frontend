@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { HttpLink, createHttpLink } from "apollo-link-http";
+import { createHttpLink } from "apollo-link-http";
 import { split, ApolloLink } from "apollo-link";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 import "./index.css";
-import App, { Search } from "./App";
+import { Search } from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import {
   BrowserRouter as Router,
@@ -30,7 +30,7 @@ import Auth from "./components/Auth";
 import MainLayout from "./MainLayout";
 import CustomerLayout from "./CustomerLayout";
 import "semantic-ui-css/semantic.min.css";
-import CartDetail from "./components/CartDetail";
+
 
 
 // const httpLink = new HttpLink({
@@ -38,7 +38,8 @@ import CartDetail from "./components/CartDetail";
 // });
 
 const httpLink = createHttpLink({
-  uri: "https://ur-shop-graphql-server.now.sh/graphql",
+  //uri: "https://ur-shop-graphql-server.now.sh/graphql",
+  uri: "http://localhost:4000/graphql",
   credentials: "include"
 });
 const middlewareLink = new ApolloLink((operation, forward) => {
@@ -53,7 +54,8 @@ const middlewareLink = new ApolloLink((operation, forward) => {
 const enhancedLink = middlewareLink.concat(httpLink);
 
 const wsLink = new WebSocketLink({
-  uri: `wss://ur-shop-graphql-server.now.sh/subscriptions`,
+  //uri: `wss://ur-shop-graphql-server.now.sh/subscriptions`,
+  uri: `ws://localhost:4000/subscriptions`,
   options: {
     reconnect: true
     // connectionParams: {

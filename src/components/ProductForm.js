@@ -1,9 +1,6 @@
 import React from "react";
-import { Button, Form, Card, Message, Image } from "semantic-ui-react";
+import { Button, Form, Card, Message } from "semantic-ui-react";
 import ImageUpload from "./ImageUpload";
-import gql from "graphql-tag";
-import { graphql, compose } from "react-apollo";
-import { Carousel } from 'antd';
 
 class ProductForm extends React.Component {
   state = {
@@ -116,7 +113,7 @@ class ProductForm extends React.Component {
   };
 
   render() {
-    console.log(this.props);
+    
     return (
       <Card fluid raised style={{ width: "960px" }} centered>
         <Card.Content>

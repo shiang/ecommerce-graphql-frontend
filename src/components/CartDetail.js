@@ -1,7 +1,5 @@
 import React from "react";
-import { Select, InputNumber, List, Avatar, Button, Spin } from "antd";
-import { Image } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { List } from "antd";
 import CartItemDetail from "./CartItemDetail";
 import { Mutation } from "react-apollo";
 import { UPDATE_ITEM, REMOVE_ITEM } from "../mutations";

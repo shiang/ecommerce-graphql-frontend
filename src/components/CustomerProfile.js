@@ -1,8 +1,8 @@
 import React from "react";
-import { Grid, Image, Item } from "semantic-ui-react";
+import { Grid, Item } from "semantic-ui-react";
 import { FETCH_CUSTOMER } from "../queries"
-import { Mutation, Query } from "react-apollo";
-import { Spin, Switch } from "antd";
+import {  Query } from "react-apollo";
+import { Spin } from "antd";
 
 class CustomerProfile extends React.Component {
     render() {

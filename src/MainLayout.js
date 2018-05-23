@@ -1,13 +1,11 @@
 import React from "react";
-import { Layout, Menu, Icon, Input, Avatar, Badge, Popover } from "antd";
-import CreateProductPage from "./pages/CreateProductPage";
+import { Layout, Menu, Icon, Avatar, Badge, Popover } from "antd";
 import { TokenContext } from "./components/Auth";
 import { Image } from 'semantic-ui-react'
 import HeaderLogo from "./image/dot-shop-logo.png";
 import { Link } from 'react-router-dom'
 // import UpdateProductPage from "./pages/UpdateProductPage";
 const { Header, Content, Footer, Sider } = Layout;
-const Search = Input.Search;
 const SubMenu = Menu.SubMenu;
 
 export default class MainLayout extends React.Component {
@@ -24,7 +22,7 @@ export default class MainLayout extends React.Component {
         return <Layout>
             <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} style={{ minHeight: "100vh", overflow: "auto", position: "fixed", left: 0 }}>
               <div className="logo" style={{ margin: '5px', backgroundColor: '#fff', padding: '5px' }}>
-                <Link to={`/manager/${vendorId}/products`}><Image src={HeaderLogo} alt="logo" height="50px" centered fluid size="small" /></Link>
+                <Link to={`/manager/${vendorId}/products`}><Image src={HeaderLogo} alt="logo" height="50px" centered fluid /></Link>
               </div>
               <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
                 <SubMenu key="sub1" title={<span>
@@ -88,7 +86,7 @@ export default class MainLayout extends React.Component {
                 </div>
               </Content>
               <Footer style={{ textAlign: "center" }}>
-                Made with ❤️ by Ryan © 2018
+                Made with <span role="img">❤️</span> by Ryan © 2018
               </Footer>
             </Layout>
           </Layout>;
