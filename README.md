@@ -12,11 +12,11 @@
 
 ## To Do
 
-[] Add real-time chat function with subscription (subscription function is ready on the backend)
-[] Add charts in the vendor side dasboard page
-[] Add checkout flow for the customer with Stripe integration
-[] Use subscription to update UI in real-time
-[] Many more.....
+[ ] Add real-time chat function with subscription (subscription function is ready on the backend)
+[ ] Add charts in the vendor side dasboard page
+[ ] Add checkout flow for the customer with Stripe integration
+[ ] Use subscription to update UI in real-time
+[ ] Many more.....
 
 ## Special thanks to
 
