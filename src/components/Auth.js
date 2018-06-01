@@ -15,9 +15,6 @@ import { ApolloConsumer } from "react-apollo";
 import jwtDecoder from "jwt-decode";
 import { GET_VENDOR_ID } from "../queries";
 
-
-
-
 //Creating context
 export const TokenContext = React.createContext();
 
@@ -43,9 +40,7 @@ class Auth extends Component {
       email: "",
       password: ""
     };
-  };
-
-  
+  }
 
   _handleChange = e => {
     this.setState({
@@ -123,46 +118,91 @@ class Auth extends Component {
     //State destructuring
     const { token } = this.state;
 
-    return <div>
-        {token ? <TokenContext.Provider value={this.state}>
+    return (
+      <div>
+        {token ? (
+          <TokenContext.Provider value={this.state}>
             {children}
-          </TokenContext.Provider> : <Mutation mutation={LOGIN}>
-            {login => <Mutation mutation={SIGN_UP}>
-                {signUp => <div className="login-form">
+          </TokenContext.Provider>
+        ) : (
+          <Mutation mutation={LOGIN}>
+            {login => (
+              <Mutation mutation={SIGN_UP}>
+                {signUp => (
+                  <div className="login-form">
                     <style>{`
-      body > div,
-      body > div > div,
-      body > div > div > div.login-form {
-        height: 100%;
-      }
-    `}</style>
-                    <Grid textAlign="center" style={{ height: "100%" }} verticalAlign="middle">
+                            body > div,
+                            body > div > div,
+                            body > div > div > div.login-form {
+                              height: 100%;
+                            }
+                    `}</style>
+                    <Grid
+                      textAlign="center"
+                      style={{ height: "100%" }}
+                      verticalAlign="middle"
+                    >
                       <Grid.Column style={{ maxWidth: 450 }}>
                         <Header as="h2" color="teal" textAlign="center">
                           {" "}
                           Log-in to your account
                         </Header>
                         <ApolloConsumer>
-                          {client => <Form size="large" onSubmit={() => this.onSubmit(client, login, signUp)} loading={this.state.loading}>
+                          {client => (
+                            <Form
+                              size="large"
+                              onSubmit={() =>
+                                this.onSubmit(client, login, signUp)
+                              }
+                              loading={this.state.loading}
+                            >
                               <Segment stacked>
-                                <Form.Input fluid icon="user" iconPosition="left" placeholder="E-mail address" name="email" onChange={this._handleChange} />
-                                <Form.Input fluid icon="lock" iconPosition="left" placeholder="Password" type="password" name="password" onChange={this._handleChange} />
-                                {this.props.submitButtonLabel === "Sign up" && <Form.Input fluid icon="lock" iconPosition="left" placeholder="Password" type="password" />}
+                                <Form.Input
+                                  fluid
+                                  icon="user"
+                                  iconPosition="left"
+                                  placeholder="E-mail address"
+                                  name="email"
+                                  onChange={this._handleChange}
+                                />
+                                <Form.Input
+                                  fluid
+                                  icon="lock"
+                                  iconPosition="left"
+                                  placeholder="Password"
+                                  type="password"
+                                  name="password"
+                                  onChange={this._handleChange}
+                                />
+                                {this.props.submitButtonLabel === "Sign up" && (
+                                  <Form.Input
+                                    fluid
+                                    icon="lock"
+                                    iconPosition="left"
+                                    placeholder="Password"
+                                    type="password"
+                                  />
+                                )}
 
                                 <Button color="teal" fluid size="large">
                                   {this.props.submitButtonLabel}
                                 </Button>
                               </Segment>
-                            </Form>}
+                            </Form>
+                          )}
                         </ApolloConsumer>
-                        {this.props.submitButtonLabel === "Log in" && <Message>
+                        {this.props.submitButtonLabel === "Log in" && (
+                          <Message>
                             New to us?
                             <Link to="/signup">Sign up</Link>
-                          </Message>}
-                        {this.props.submitButtonLabel === "Sign up" && <Message>
+                          </Message>
+                        )}
+                        {this.props.submitButtonLabel === "Sign up" && (
+                          <Message>
                             Already have an account?
                             <Link to="/login">Log in</Link>
-                          </Message>}
+                          </Message>
+                        )}
                         <form action="https://ur-shop-graphql-server.now.sh/auth/google">
                           <Button color="red" fluid size="large">
                             or sign in with Google
@@ -170,10 +210,14 @@ class Auth extends Component {
                         </form>
                       </Grid.Column>
                     </Grid>
-                  </div>}
-              </Mutation>}
-          </Mutation>}
-      </div>;
+                  </div>
+                )}
+              </Mutation>
+            )}
+          </Mutation>
+        )}
+      </div>
+    );
   }
 }
 
