@@ -103,6 +103,9 @@ export const GET_CUSTOMER = gql`
         product {
           _id
           name
+          vendor {
+            _id
+          }
           images {
             _id
             pictureUrl

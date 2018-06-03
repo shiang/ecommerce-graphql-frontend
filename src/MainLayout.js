@@ -86,7 +86,7 @@ export default class MainLayout extends React.Component {
                 </div>
               </Content>
               <Footer style={{ textAlign: "center" }}>
-                Made with <span role="img">❤️</span> by Ryan © 2018
+                Created by Ryan © 2018
               </Footer>
             </Layout>
           </Layout>;

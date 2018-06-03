@@ -17,7 +17,7 @@ class ShoppingCartPage extends React.Component {
             {({ data, error, loading }) => {
               if (!loading) {
                 const { cart } = data.customer;
-                return <CartDetail cart={cart} />;
+                return <CartDetail cart={cart} history={this.props.history} />;
               }
               return <Spin />;
             }}

@@ -34,6 +34,7 @@ class CartItemDetail extends React.Component {
 
   render() {
     const { item } = this.props;
+   
 
     const imageUrl = item.product.images.length > 0 ? item.product.images[0].pictureUrl : "http://fillmurray.com/200/300"
 
@@ -51,7 +52,7 @@ class CartItemDetail extends React.Component {
             <Avatar src={imageUrl} size="large" />
           }
           title={
-            <Link to="/">
+            <Link to={`/vendors/${item.product.vendor._id}/products/${item.product._id}`}>
               <h4>{item.product.name}</h4>
             </Link>
           }

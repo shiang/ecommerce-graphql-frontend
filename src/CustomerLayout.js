@@ -122,85 +122,45 @@ class CustomerLayout extends React.Component {
                   {({ loading, error, data }) => {
                     if (!loading) {
                       console.log(data);
-                      return (
-                        <Layout>
-                          <Header
-                            style={{
-                              position: "fixed",
-                              width: "100%",
-                              zIndex: 500,
-                              display: "flex",
-                              flexDirection: "row",
-                              justifyContent: "space-between"
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                backgroundColor: "#fff",
-                                padding: "5px",
-                                margin: "5px"
-                              }}
-                            >
+                      return <Layout>
+                          <Header style={{ position: "fixed", width: "100%", zIndex: 500, display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", backgroundColor: "#fff", padding: "5px", margin: "5px" }}>
                               <Link to="/">
-                                <Image
-                                  src={HeaderLogo}
-                                  alt="logo"
-                                  height="50px"
-                                />
+                                <Image src={HeaderLogo} alt="logo" height="50px" />
                               </Link>
                             </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                width: "100px"
-                              }}
-                            >
-                              <Popover
-                                placement="bottomRight"
-                                title="Your cart"
-                                content={<Link to="/shoppingcart">Check your cart</Link>}
-                                trigger="click"
-                              >
+                            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "100px" }}>
+                              <Popover placement="bottomRight" title="Your cart" content={<Link to="/shoppingcart">
+                                    Check your cart
+                                  </Link>} trigger="click">
                                 <Avatar icon="shopping-cart" />
                               </Popover>
-                              <Popover
-                                placement="bottomRight"
-                                title="User menu"
-                                content={
-                                  <a href="https://ur-shop-graphql-server.now.sh/logout">
-                                    <button onClick={this.logOut}>
+                              <Popover placement="bottomRight" title="User menu" content={<a href="https://ur-shop-graphql-server.now.sh/logout">
+                                    <button
+                                      onClick={
+                                        this.logOut
+                                      }
+                                    >
                                       Log out
                                     </button>
-                                  </a>
-                                }
-                                trigger="click"
-                              >
+                                  </a>} trigger="click">
                                 <Avatar icon="user" />
                               </Popover>
                             </div>
                           </Header>
                           <Content style={{ padding: "0 50px", marginTop: 64 }}>
-                            <div
-                              style={{
-                                background: "#fff",
-                                padding: 24,
-                                minHeight: 380
-                              }}
-                            >
+                            <div style={{ background: "#fff", padding: 24, minHeight: 380 }}>
                               {this.props.children}
                             </div>
                           </Content>
-                          <Footer style={{ textAlign: "center" }}>
-                            Created by Ryan
+                          <Footer
+                            style={{
+                              textAlign: "center"
+                            }}
+                          >
+                            Created by Ryan © 2018
                           </Footer>
-                        </Layout>
-                      );
+                        </Layout>;
                     }
 
                     return <Spin />;

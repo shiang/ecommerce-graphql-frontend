@@ -4,6 +4,9 @@ export const ADD_TO_CART = gql`
   mutation($orderedBy: String!, $product: String!, $quantity: Int!) {
     addToCart(orderedBy: $orderedBy, product: $product, quantity: $quantity) {
       _id
+      orderedBy {
+        _id
+      }
       product {
         _id
         name
@@ -26,6 +29,9 @@ export const REMOVE_ITEM = gql`
   mutation RemoveItem($_id: String!, $customerId: String!) {
     removeOrderInfo(_id: $_id, customerId: $customerId) {
       _id
+      orderedBy {
+        _id 
+      }
       product {
         _id
       }

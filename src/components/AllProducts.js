@@ -6,7 +6,7 @@ import { FETCH_VENDOR } from "../queries";
 
 class AllProducts extends Component {
   render() {
-    console.log(this.props);
+    //console.log(this.props);
     return (
       <Query
         query={FETCH_VENDOR}
