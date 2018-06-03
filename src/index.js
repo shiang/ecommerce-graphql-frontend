@@ -33,10 +33,6 @@ import "semantic-ui-css/semantic.min.css";
 
 
 
-// const httpLink = new HttpLink({
-//   uri: "http://localhost:4000/graphql"
-// });
-
 const httpLink = createHttpLink({
   uri: "https://ur-shop-graphql-server.now.sh/graphql",
   //uri: "http://localhost:4000/graphql",
@@ -70,7 +66,6 @@ const link = split(
     return kind === "OperationDefinition" && operation === "subscription";
   },
   wsLink,
-  //httpLink
   enhancedLink
 );
 
