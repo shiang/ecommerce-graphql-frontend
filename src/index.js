@@ -34,8 +34,8 @@ import "semantic-ui-css/semantic.min.css";
 
 
 const httpLink = createHttpLink({
-  uri: "https://ur-shop-graphql-server.now.sh/graphql",
-  //uri: "http://localhost:4000/graphql",
+  //uri: "https://ur-shop-graphql-server.now.sh/graphql",
+  uri: "http://localhost:4000/graphql",
   credentials: "include"
 });
 const middlewareLink = new ApolloLink((operation, forward) => {
@@ -50,8 +50,8 @@ const middlewareLink = new ApolloLink((operation, forward) => {
 const enhancedLink = middlewareLink.concat(httpLink);
 
 const wsLink = new WebSocketLink({
-  uri: `wss://ur-shop-graphql-server.now.sh/subscriptions`,
-  //uri: `ws://localhost:4000/subscriptions`,
+  //uri: `wss://ur-shop-graphql-server.now.sh/subscriptions`,
+  uri: `ws://localhost:4000/subscriptions`,
   options: {
     reconnect: true
     // connectionParams: {
