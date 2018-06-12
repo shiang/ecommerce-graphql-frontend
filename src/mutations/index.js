@@ -56,3 +56,23 @@ export const SIGN_UP = gql`
     }
   }
 `;
+
+export const CREATE_PRODUCT = gql`
+         mutation CreateProduct($productInput: ProductInput!) {
+           createProduct(productInput: $productInput) {
+             _id
+             name
+             description
+             category
+             price
+             tags
+             vendor {
+               _id
+             }
+             images {
+               _id
+               pictureUrl
+             }
+           }
+         }
+       `;

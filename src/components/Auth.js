@@ -131,12 +131,12 @@ class Auth extends Component {
                 {signUp => (
                   <div className="login-form">
                     <style>{`
-                            body > div,
-                            body > div > div,
-                            body > div > div > div.login-form {
-                              height: 100%;
-                            }
-                    `}</style>
+      body > div,
+      body > div > div,
+      body > div > div > div.login-form {
+        height: 100%;
+      }
+    `}</style>
                     <Grid
                       textAlign="center"
                       style={{ height: "100%" }}

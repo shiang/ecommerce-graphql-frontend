@@ -10,12 +10,9 @@ class Product extends Component {
     return (
       <TokenContext.Consumer>
         {({ vendorId }) => (
-          <Query query={FETCH_VENDOR} variables={{ _id: vendorId || this.props.matach.params.id }}>
+          <Query query={FETCH_VENDOR} variables={{ _id: vendorId || this.props.match.params.id }}>
             {({ loading, error, data }) => {
               if (!loading) {
-                console.log("Product Data: ", data);
-                //console.log("Hits props: ", this.props.hit);
-
                 return (
                   <Card.Group stackable doubling itemsPerRow="5">
                     <BackTop />

@@ -1,62 +1,54 @@
 import React from "react";
 import ProductForm from "../components/ProductForm";
-import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-import { ALL_PRODUCTS } from "../queries";
+import { FETCH_VENDOR } from "../queries";
+import { CREATE_PRODUCT } from "../mutations";
 import { TokenContext } from "../components/Auth";
 
-const CREATE_PRODUCT = gql`
-  mutation CreateProduct($productInput: ProductInput!) {
-    createProduct(productInput: $productInput) {
-      _id
-      name
-      description
-      category
-      price
-      tags
-      vendor {
-        _id
-      }
-    }
-  }
-`;
-
 const updateCache = (cache, { data: { createProduct } }) => {
-  const { allProducts } = cache.readQuery({
-    query: ALL_PRODUCTS
+  const { vendor } = cache.readQuery({
+    query: FETCH_VENDOR,
+    variables: {
+      _id: createProduct.vendor._id
+    }
   });
 
-  console.log(createProduct);
-  console.log(allProducts);
+  const updatedProducts = vendor.products.concat(createProduct);
 
   cache.writeQuery({
-    query: ALL_PRODUCTS,
-    data: { allProducts: allProducts.concat(createProduct) }
+    query: FETCH_VENDOR,
+    data: {
+      vendor: {
+        __typename: "Vendor",
+        _id: createProduct.vendor._id,
+        products: updatedProducts
+      }
+    }
   });
 };
 
 class CreateProductPage extends React.Component {
   render() {
     return (
-    <TokenContext.Consumer>
-      {({ vendorId }) => {
-        console.log(vendorId);
-        return (
-          <Mutation mutation={CREATE_PRODUCT} update={updateCache}>
-            {(createProduct, { data }) => {
-              return (
-                <ProductForm
-                  mutation={createProduct}
-                  vendorId={vendorId}
-                  history={this.props.history}
-                />
-              );
-            }}
-          </Mutation>
-        );
-      }}
-    </TokenContext.Consumer>
-    )
+      <TokenContext.Consumer>
+        {({ vendorId }) => {
+          console.log(vendorId);
+          return (
+            <Mutation mutation={CREATE_PRODUCT} update={updateCache}>
+              {(createProduct, { data }) => {
+                return (
+                  <ProductForm
+                    mutation={createProduct}
+                    vendorId={vendorId}
+                    history={this.props.history}
+                  />
+                );
+              }}
+            </Mutation>
+          );
+        }}
+      </TokenContext.Consumer>
+    );
   }
 }
 
