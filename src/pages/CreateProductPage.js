@@ -32,7 +32,7 @@ class CreateProductPage extends React.Component {
     return (
       <TokenContext.Consumer>
         {({ vendorId }) => {
-          console.log(vendorId);
+
           return (
             <Mutation mutation={CREATE_PRODUCT} update={updateCache}>
               {(createProduct, { data }) => {

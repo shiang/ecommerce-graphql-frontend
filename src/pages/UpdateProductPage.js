@@ -3,6 +3,7 @@ import ProductForm from "../components/ProductForm";
 import gql from "graphql-tag";
 import { Mutation, Query } from "react-apollo";
 import { Spin } from "antd";
+import { TokenContext } from "../components/Auth";
 
 const GET_PRODUCT = gql`
   query GetProduct($_id: String!) {
@@ -52,30 +53,35 @@ const updateCache = (cache, { data: { updateProduct } }) => {
 class UpdateProductPage extends React.Component {
   render() {
     return (
-      <Query
-        query={GET_PRODUCT}
-        variables={{ _id: this.props.match.params.id }}
-      >
-        {({ loading, error, data }) => {
-          if (!loading) {
-            //console.log(data);
-            return (
-              <Mutation mutation={UPDATE_PRODUCT} update={updateCache}>
-                {updateProduct => {
-                  return (
-                    <ProductForm
-                      mutation={updateProduct}
-                      product={data.product}
-                      history={this.props.history}
-                    />
-                  );
-                }}
-              </Mutation>
-            );
-          }
-          return <Spin />;
-        }}
-      </Query>
+      <TokenContext.Consumer>
+        {({ vendorId }) => (
+          <Query
+            query={GET_PRODUCT}
+            variables={{ _id: this.props.match.params.id }}
+          >
+            {({ loading, error, data }) => {
+              if (!loading) {
+                //console.log(data);
+                return (
+                  <Mutation mutation={UPDATE_PRODUCT} update={updateCache}>
+                    {updateProduct => {
+                      return (
+                        <ProductForm
+                          mutation={updateProduct}
+                          product={data.product}
+                          vendorId={vendorId}
+                          history={this.props.history}
+                        />
+                      );
+                    }}
+                  </Mutation>
+                );
+              }
+              return <Spin />;
+            }}
+          </Query>
+        )}
+      </TokenContext.Consumer>
     );
   }
 }
