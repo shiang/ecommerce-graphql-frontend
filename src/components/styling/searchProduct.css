@@ -1,0 +1,13 @@
+.ais-Hits {
+  margin-top: 20px;
+}
+
+.ais-Hits-list {
+  list-style-type: none;
+}
+
+.ais-SearchBox,
+.ais-Stats {
+  margin-left: 20px;
+  margin-top: 10px;
+}
